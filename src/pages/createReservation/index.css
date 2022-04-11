@@ -1,0 +1,7 @@
+.ant-table-cell div {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 64px;
+    border-left: 1px solid red;
+}

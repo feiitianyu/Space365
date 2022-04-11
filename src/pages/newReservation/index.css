@@ -1,0 +1,17 @@
+.bookUserInfo {
+    margin-bottom: 10px;
+}
+
+.bookUserInfo span {
+    margin-right: 20px;
+    font-size: 10px;
+    color: gray;
+}
+
+.new-item {
+    margin-bottom: 8px;
+}
+
+.new-item div {
+    font-size: 12px;
+}
