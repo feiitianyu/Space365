@@ -12,13 +12,13 @@ const NewReservation = () => {
         <div>
             <div>
                 <Breadcrumb>
-                    <Breadcrumb.Item>创建预定</Breadcrumb.Item>
-                    <Breadcrumb.Item>空间预定</Breadcrumb.Item>
-                    <Breadcrumb.Item>新建预定</Breadcrumb.Item>
+                    <Breadcrumb.Item>创建预订</Breadcrumb.Item>
+                    <Breadcrumb.Item>空间预订</Breadcrumb.Item>
+                    <Breadcrumb.Item>新建预订</Breadcrumb.Item>
                 </Breadcrumb>
-                <div style={{ fontSize: 18, fontWeight: 'bold', margin: '10px 0 15px' }}>新建预定</div>
+                <div style={{ fontSize: 18, fontWeight: 'bold', margin: '10px 0 15px' }}>新建预订</div>
                 <div className='bookUserInfo'>
-                    <span>预定人: 张磊</span>
+                    <span>预订人: 张磊</span>
                     <span>部门: 应用软件部</span>
                     <span>联系方式: 13323232345</span>
                     <span>邮箱: zhanglei@shgbit.com</span>
@@ -31,7 +31,7 @@ const NewReservation = () => {
                     <Input showCount maxLength={50} style={{ width: 600 }} />
                 </div>
                 <div className='new-item'>
-                    <div>预定会议室</div>
+                    <div>预订会议室</div>
                     <Select style={{ width: 600 }} defaultValue='田子坊'>
                         <Option value='田子坊'>田子坊</Option>
                     </Select>
@@ -68,7 +68,7 @@ const NewReservation = () => {
                     <Input value='zhanglei@shgbit.com' style={{ width: 600 }} />
                 </div>
                 <div className='new-item'>
-                    <Button type='primary'>预定</Button>
+                    <Button type='primary'>预订</Button>
                     <Button onClick={() => history.goBack()} >取消</Button>
                 </div>
             </div>

@@ -123,11 +123,11 @@ const MyReservation = () => {
         <div>
             <div>
                 <Breadcrumb>
-                    <Breadcrumb.Item>我的预定</Breadcrumb.Item>
-                    <Breadcrumb.Item>我的空间预定</Breadcrumb.Item>
+                    <Breadcrumb.Item>我的预订</Breadcrumb.Item>
+                    <Breadcrumb.Item>我的空间预订</Breadcrumb.Item>
                 </Breadcrumb>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '5px 0 0' }}>
-                    <div style={{ fontWeight: 'bold', fontSize: 17 }}>我的空间预定</div>
+                    <div style={{ fontWeight: 'bold', fontSize: 17 }}>我的空间预订</div>
                 </div>
             </div>
             <CustomDivider />

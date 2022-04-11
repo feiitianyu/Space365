@@ -40,18 +40,18 @@ const CreateReservation = () => {
         <div>
             <div>
                 <Breadcrumb>
-                    <Breadcrumb.Item>创建预定</Breadcrumb.Item>
-                    <Breadcrumb.Item>空间预定</Breadcrumb.Item>
+                    <Breadcrumb.Item>创建预订</Breadcrumb.Item>
+                    <Breadcrumb.Item>空间预订</Breadcrumb.Item>
                 </Breadcrumb>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '5px 0 0' }}>
-                    <div style={{ fontWeight: 'bold', fontSize: 17 }}>空间预定</div>
+                    <div style={{ fontWeight: 'bold', fontSize: 17 }}>空间预订</div>
                     <Button
                         type='primary'
                         size='small'
                         icon={<PlusOutlined />}
                         onClick={() => history.push('/newReservation')}
                     >
-                        新建预定
+                        新建预订
                     </Button>
                 </div>
             </div>
