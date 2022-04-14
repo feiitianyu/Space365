@@ -1,41 +1,27 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Breadcrumb, Input, DatePicker, Button, Table, Tooltip } from 'antd'
+import { Breadcrumb, Input, DatePicker, Button, Tooltip } from 'antd'
 import moment from 'moment'
 import { PlusOutlined, SearchOutlined, InfoCircleFilled } from '@ant-design/icons';
 import CustomDivider from '../../components/customDivider';
-import { bookItems, table, generateTime } from '../../mock'
+import { bookItems, table } from '../../mock'
+import CustomTable from '../../components/customTable';
+import { BookingsContext } from '../../App';
 import './index.css'
 
 const initialSelectedItem = {
     park: '上海',
     skyscraper: '25号楼',
     floor: '全部',
-    person: '全部'
+    person: '全部',
+    device: ''
 }
-
-const { Column } = Table
 
 const CreateReservation = () => {
     const history = useHistory()
     const [selectedItem, setSelectedItem] = useState(initialSelectedItem)
-    const [left, setLeft] = useState(0)
+    const { bookings } = useContext(BookingsContext)
 
-    const handleClick = () => {
-        console.log(123)
-        
-    }
-    // console.log(typeof moment().minute())
-    useEffect(() => {
-        const t = setInterval(() => {
-            console.log(`${moment().minute() / 60 * 100}%`)
-            setLeft(`${moment().minute() / 60 * 100}%`)
-        }, 1000 * 60);
-        return () => {
-            clearInterval(t)
-        }
-    }, [])
-    
     return (
         <div>
             <div>
@@ -68,7 +54,6 @@ const CreateReservation = () => {
                                             key={i}
                                             shape='round'
                                             type={selectedItem[item[0]] === i ? 'primary' : 'text'}
-                                            disabled={item[0] === 'device'}
                                             onClick={() => setSelectedItem({ ...selectedItem, [item[0]]: i })}
                                         >
                                             {i}
@@ -98,42 +83,7 @@ const CreateReservation = () => {
                 <InfoCircleFilled style={{ color: 'rgb(242, 152, 72)', marginRight: 10 }} />
                 <span style={{ fontSize: 10, color: 'gray' }}>点击当前时间线(红线)后的单元格可预定相应会议室</span>
             </div>
-            <Table
-                bordered
-                dataSource={table.tableDate}
-                pagination={{ defaultPageSize: 10 }}
-                scroll={{ x: true }}
-
-            >
-                <Column
-                    title='空间名称'
-                    dataIndex='name'
-                    render={(text) => <Button type='link' style={{ border: 0, padding: 0 }}>{text}</Button>}
-                    fixed
-                    // onClick={handleClick}
-                />
-                {
-                    generateTime().map(({ title, dataIndex }) => (
-                        <Column
-                            title={title}
-                            dataIndex={dataIndex}
-                            key={dataIndex}
-                            // onClick={handleClick}
-                            render={(text, record, index) => {
-                                // console.log(title.replace(/:00/, ''))
-                                // console.log(typeof new Date().getHours())
-                                // console.log(`${new Date().getMinutes() / 60 * 100}%`)
-                                return <div
-                                    style={{
-                                        display: `${title.replace(/:00/, '') === `${moment().hour()}` ? 'block' : 'none'}`,
-                                        left
-                                    }}
-                                />
-                            }}
-                        />
-                    ))
-                }
-            </Table>
+            <CustomTable columns={table.columns} dataSource={bookings} />
         </div>
     )
 }

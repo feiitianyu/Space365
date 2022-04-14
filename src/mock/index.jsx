@@ -1,5 +1,3 @@
-import { Button } from 'antd'
-
 const park = ['park', '所属园区', '上海', '北京', '济南', '江西', '武汉', '成都', '广州', '合肥', '贵阳', '宁波', '南京', '深圳', '杭州']
 
 const skyscraper = ['skyscraper', '所属大楼', '25号楼', '20号楼']
@@ -14,7 +12,7 @@ export const bookItems = [park, skyscraper, floor, person, device]
 
 export const generateTime = () => {
     let res = []
-    for(let i=8; i<18; i++) {
+    for(let i=0; i<9; i++) {
         const str = `${i}:00`
         res = [...res, { title: str, dataIndex: str, key: str }]
     }
@@ -25,48 +23,57 @@ const columns = [
     {
         title: '空间名称',
         dataIndex: 'name',
-        render: (text) => <Button type='link' style={{padding: '0 15px', border: '0'}}>{text}</Button>,
+        key: 'name'
     },
     ...generateTime()
 ]
 
+// const tableDates = [
+//     {
+//         key: '新天地',
+//         name: '新天地',
+//     },
+//     {
+//         key: '田子坊',
+//         name: '田子坊',
+//     },
+//     {
+//         key: '城隍庙',
+//         name: '城隍庙',
+//     },
+//     {
+//         key: '步高里',
+//         name: '步高里',
+//     },
+//     {
+//         key: '老西门',
+//         name: '老西门',
+//     },
+//     {
+//         key: '阳光房',
+//         name: '阳光房',
+//     },
+//     {
+//         key: '小东门',
+//         name: '小东门',
+//     },
+//     {
+//         key: '陆家嘴',
+//         name: '陆家嘴',
+//     },
+//     {
+//         key: '大世界',
+//         name: '大世界',
+//     },
+// ];
+
 const tableDate = [
-    {
-        key: '新天地',
-        name: '新天地',
-    },
     {
         key: '田子坊',
         name: '田子坊',
-    },
-    {
-        key: '城隍庙',
-        name: '城隍庙',
-    },
-    {
-        key: '步高里',
-        name: '步高里',
-    },
-    {
-        key: '老西门',
-        name: '老西门',
-    },
-    {
-        key: '阳光房',
-        name: '阳光房',
-    },
-    {
-        key: '小东门',
-        name: '小东门',
-    },
-    {
-        key: '陆家嘴',
-        name: '陆家嘴',
-    },
-    {
-        key: '大世界',
-        name: '大世界',
-    },
-];
+        '15:00': { position: 'begin', value: '15:25', endValue: '16:00' },
+        '16:00': { position: 'end', value: '16:00', begin: '15:25' }
+    }
+]
 
 export const table = { columns, tableDate }

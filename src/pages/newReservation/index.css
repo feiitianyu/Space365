@@ -15,3 +15,7 @@
 .new-item div {
     font-size: 12px;
 }
+
+.ant-form .ant-form-item {
+    margin-bottom: 5px;
+}

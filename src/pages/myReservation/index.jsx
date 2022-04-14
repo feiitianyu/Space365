@@ -1,89 +1,8 @@
+import { useContext } from 'react'
 import { Breadcrumb, Input, DatePicker, Button, Table, Tooltip } from 'antd'
 import { SearchOutlined } from '@ant-design/icons';
 import CustomDivider from '../../components/customDivider';
-
-const dataSource = [
-    {
-        key: '1',
-        index: '1',
-        status: '未开始',
-        time: '12:00',
-        address: '1号会议室',
-        theme: '业务洽谈',
-    },
-    {
-        key: '2',
-        index: '2',
-        status: '已结束',
-        time: '14:00',
-        address: '5号会议室',
-        theme: '临时会议',
-    },
-    {
-        key: '3',
-        index: '2',
-        status: '已结束',
-        time: '14:00',
-        address: '5号会议室',
-        theme: '临时会议',
-    },
-    {
-        key: '4',
-        index: '2',
-        status: '已结束',
-        time: '14:00',
-        address: '5号会议室',
-        theme: '临时会议',
-    },
-    {
-        key: '5',
-        index: '2',
-        status: '已结束',
-        time: '14:00',
-        address: '5号会议室',
-        theme: '临时会议',
-    },
-    {
-        key: '6',
-        index: '2',
-        status: '已结束',
-        time: '14:00',
-        address: '5号会议室',
-        theme: '临时会议',
-    },
-    {
-        key: '7',
-        index: '2',
-        status: '已结束',
-        time: '14:00',
-        address: '5号会议室',
-        theme: '临时会议',
-    },
-    {
-        key: '8',
-        index: '2',
-        status: '已结束',
-        time: '14:00',
-        address: '5号会议室',
-        theme: '临时会议',
-    },
-    {
-        key: '9',
-        index: '2',
-        status: '已结束',
-        time: '14:00',
-        address: '5号会议室',
-        theme: '临时会议',
-    },
-    {
-        key: '10',
-        index: '2',
-        status: '已结束',
-        time: '14:00',
-        address: '5号会议室',
-        theme: '临时会议',
-    },
-];
+import { BookingsContext } from '../../App';
 
 const columns = [
     {
@@ -94,22 +13,22 @@ const columns = [
     {
         title: '状态',
         dataIndex: 'status',
-        render: (text) => <Button danger type='primary'>{text}</Button>,
+        key: 'status'
     },
     {
         title: '会议时间',
-        dataIndex: 'time',
-        key: 'time',
+        dataIndex: 'times',
+        key: 'times',
     },
     {
         title: '会议地点',
-        dataIndex: 'address',
-        key: 'address',
+        dataIndex: 'room',
+        key: 'room',
     },
     {
         title: '会议主题',
         dataIndex: 'theme',
-        render: (text) => <Button type='link'>{text}</Button>,
+        key: 'theme'
     },
     {
         title: 'action',
@@ -119,6 +38,8 @@ const columns = [
 ];
 
 const MyReservation = () => {
+    const {bookings} = useContext(BookingsContext)
+
     return (
         <div>
             <div>
@@ -146,7 +67,7 @@ const MyReservation = () => {
                 </div>
                 <Table
                     columns={columns}
-                    dataSource={dataSource}
+                    dataSource={bookings}
                 />
             </div>
         </div>

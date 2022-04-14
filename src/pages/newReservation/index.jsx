@@ -1,13 +1,43 @@
-import { useHistory } from 'react-router-dom'
-import { Breadcrumb, Input, DatePicker, Button, Select, Divider } from 'antd'
+import { useState, useContext } from 'react'
+import { useHistory } from 'react-router-dom';
+import { Breadcrumb, Input, DatePicker, Button, Select, Form, TimePicker } from 'antd'
+import { ArrowRightOutlined } from '@ant-design/icons';
+import CustomDivider from '../../components/customDivider'
+import StatusTable from '../../components/statusTable'
+import { generateTime } from '../../mock'
+import { BookingsContext } from '../../App';
 import './index.css'
 
 const { Option } = Select
 const { RangePicker } = DatePicker
 
+const initialFormValue = {
+    theme: '',
+    room: '',
+    time: '',
+    cycle: '',
+    status: '',
+    user: '张磊',
+    department: '应用软件部',
+    tel: '13898873321',
+    email: 'zhanglei@shgbit.com'
+}
+
 const NewReservation = () => {
     const history = useHistory()
+    const { bookings, setBookings } = useContext(BookingsContext)
+    const [formValue, setFormValue] = useState(initialFormValue)
 
+    const handleChange = (v) => {
+        // console.log(v)
+        setFormValue({ ...formValue, ...v })
+    }
+
+    const handleBook = () => {
+        setBookings([...bookings, formValue])
+        history.push('/myReservation')
+        setFormValue(initialFormValue)
+    }
     return (
         <div>
             <div>
@@ -16,7 +46,7 @@ const NewReservation = () => {
                     <Breadcrumb.Item>空间预订</Breadcrumb.Item>
                     <Breadcrumb.Item>新建预订</Breadcrumb.Item>
                 </Breadcrumb>
-                <div style={{ fontSize: 18, fontWeight: 'bold', margin: '10px 0 15px' }}>新建预订</div>
+                <div style={{ fontSize: 18, fontWeight: 'bold', margin: '10px 0 13px' }}>新建预订</div>
                 <div className='bookUserInfo'>
                     <span>预订人: 张磊</span>
                     <span>部门: 应用软件部</span>
@@ -24,54 +54,54 @@ const NewReservation = () => {
                     <span>邮箱: zhanglei@shgbit.com</span>
                 </div>
             </div>
-            <Divider />
-            <div>
-                <div className='new-item'>
-                    <div>会议主题</div>
-                    <Input showCount maxLength={50} style={{ width: 600 }} />
-                </div>
-                <div className='new-item'>
-                    <div>预订会议室</div>
-                    <Select style={{ width: 600 }} defaultValue='田子坊'>
+            <CustomDivider />
+            <Form
+                onValuesChange={handleChange}
+                initialValues={formValue}
+                layout='vertical'
+                wrapperCol={{ span: 12 }}
+                size='small'
+            >
+                <Form.Item label='会议主题' name='theme'>
+                    <Input showCount maxLength={50} />
+                </Form.Item>
+                <Form.Item label='预订会议室' name='room'>
+                    <Select>
                         <Option value='田子坊'>田子坊</Option>
+                        <Option value='新天地'>新天地</Option>
                     </Select>
-                </div>
-                <div className='new-item'>
-                    <div>会议时间</div>
-                    <RangePicker showTime />
-                </div>
-                <div className='new-item'>
-                    <div>会议周期</div>
-                    <Select style={{ width: 200 }} defaultValue='不重复'>
-                        <Option value='田子坊'>重复</Option>
-                        <Option value='田子坊'>不重复</Option>
+                </Form.Item>
+                <Form.Item label='会议时间' name='time'>
+                    <TimePicker placeholder='开始时间' />
+                    <ArrowRightOutlined />
+                    <TimePicker placeholder='结束时间' />
+                </Form.Item>
+                <Form.Item label='会议周期' name='cycle'>
+                    <Select>
+                        <Option value='重复'>重复</Option>
+                        <Option value='不重复'>不重复</Option>
                     </Select>
-                </div>
-                <div className='new-item'>
-                    <div>会议室状态</div>
-                    <Input style={{ width: 600 }} />
-                </div>
-                <div className='new-item'>
-                    <div>召集人</div>
-                    <Input value='张磊' style={{ width: 600 }} />
-                </div>
-                <div className='new-item'>
-                    <div>所属部门</div>
-                    <Input value='应用软件部' style={{ width: 600 }} />
-                </div>
-                <div className='new-item'>
-                    <div>联系方式</div>
-                    <Input value='13323232345' style={{ width: 600 }} />
-                </div>
-                <div className='new-item'>
-                    <div>邮箱</div>
-                    <Input value='zhanglei@shgbit.com' style={{ width: 600 }} />
-                </div>
-                <div className='new-item'>
-                    <Button type='primary'>预订</Button>
-                    <Button onClick={() => history.goBack()} >取消</Button>
-                </div>
-            </div>
+                </Form.Item>
+                <Form.Item label='会议室状态' name='status'>
+                    <StatusTable columns={generateTime()} dataSource={{}} />
+                </Form.Item>
+                <Form.Item label='召集人' name='user'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='所属部门' name='department'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='联系方式' name='tel'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='邮箱' name='email'>
+                    <Input />
+                </Form.Item>
+                <Form.Item style={{margin: '30px 0px 20px'}}>
+                    <Button type='primary' style={{marginRight: 10}} onClick={handleBook}>预定</Button>
+                    <Button>取消</Button>
+                </Form.Item>
+            </Form>
         </div>
     )
 }

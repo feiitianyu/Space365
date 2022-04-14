@@ -1,0 +1,20 @@
+.status-table {
+    display: flex;
+    border-left: 1px solid rgb(232, 232, 232);
+}
+
+.status-table-item-title {
+    width: 60px;
+    height: 30px;
+    border-right: 1px solid rgb(232, 232, 232);
+    border-top: 1px solid rgb(232, 232, 232);
+    border-bottom: 1px solid rgb(232, 232, 232);
+    background-color: rgb(250, 250, 250);
+}
+
+.status-table-item-content {
+    width: 60px;
+    height: 30px;
+    border-right: 1px solid rgb(232, 232, 232);
+    border-bottom: 1px solid rgb(232, 232, 232);
+}
