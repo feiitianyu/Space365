@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Breadcrumb, Input, DatePicker, Button, Tooltip } from 'antd'
-import moment from 'moment'
+import { Breadcrumb, Input, Button, Tooltip } from 'antd'
 import { PlusOutlined, SearchOutlined, InfoCircleFilled } from '@ant-design/icons';
 import CustomDivider from '../../components/customDivider';
 import { bookItems, table } from '../../mock'
@@ -21,6 +20,22 @@ const CreateReservation = () => {
     const history = useHistory()
     const [selectedItem, setSelectedItem] = useState(initialSelectedItem)
     const { bookings } = useContext(BookingsContext)
+    const [tableData, setTableData] = useState(bookings)
+
+    const filterTableData = (e) => {
+        console.log(e.target.value)
+        if(e.target.value === '') {
+            setTableData(bookings)
+        } else {
+            let newTableData = []
+            for(let item of bookings) {
+                if(item.room.indexOf(e.target.value) !== -1) {
+                    newTableData = [...newTableData, item]
+                }
+            }
+            setTableData(newTableData)
+        }
+    }
 
     return (
         <div>
@@ -68,6 +83,7 @@ const CreateReservation = () => {
             </div>
             <div style={{ display: 'flex' }}>
                 <Input
+                    onChange={filterTableData}
                     placeholder='搜索空间名称'
                     style={{ width: 240, marginRight: 300 }}
                     suffix={
@@ -76,14 +92,13 @@ const CreateReservation = () => {
                         </Tooltip>
                     }
                 />
-                <DatePicker defaultValue={moment()} />
             </div>
             <CustomDivider />
             <div style={{ margin: '5px 0' }}>
                 <InfoCircleFilled style={{ color: 'rgb(242, 152, 72)', marginRight: 10 }} />
                 <span style={{ fontSize: 10, color: 'gray' }}>点击当前时间线(红线)后的单元格可预定相应会议室</span>
             </div>
-            <CustomTable columns={table.columns} dataSource={bookings} />
+            <CustomTable columns={table.columns} dataSource={tableData} />
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom';
-import { Breadcrumb, Input, DatePicker, Button, Select, Form, TimePicker } from 'antd'
+import { Breadcrumb, Input, DatePicker, Button, Select, Form } from 'antd'
 import { ArrowRightOutlined } from '@ant-design/icons';
 import CustomDivider from '../../components/customDivider'
 import StatusTable from '../../components/statusTable'
@@ -28,14 +28,30 @@ const NewReservation = () => {
     const { bookings, setBookings } = useContext(BookingsContext)
     const [formValue, setFormValue] = useState(initialFormValue)
 
-    const handleChange = (v) => {
-        // console.log(v)
-        setFormValue({ ...formValue, ...v })
+    const handleChange = (changedFields) => {
+        if (changedFields.room) {
+            const { room } = changedFields
+            setFormValue({ ...formValue, key: room, name: room, room, status: '未开始' })
+        } else {
+            setFormValue({ ...formValue, ...changedFields })
+        }
     }
 
     const handleBook = () => {
-        setBookings([...bookings, formValue])
-        history.push('/myReservation')
+        const { time } = formValue
+        const beginTime = `${time[0].hour()}:${time[0].minute() === 0 ? '00' : time[0].minute()}`
+        const endTime = `${time[1].hour()}:${time[1].minute()=== 0 ? '00' : time[1].minute()}`
+        setBookings([
+            ...bookings,
+            {
+                ...formValue,
+                time: {
+                    [`${time[0].hour()}:00`]: { position: 'begin', value: beginTime, endValue: endTime },
+                    [`${time[1].hour()}:00`]: { position: 'end', value: endTime, beginValue: beginTime }
+                }
+            }
+        ])
+        history.push('/')
         setFormValue(initialFormValue)
     }
     return (
@@ -72,9 +88,7 @@ const NewReservation = () => {
                     </Select>
                 </Form.Item>
                 <Form.Item label='会议时间' name='time'>
-                    <TimePicker placeholder='开始时间' />
-                    <ArrowRightOutlined />
-                    <TimePicker placeholder='结束时间' />
+                    <RangePicker picker='time' />
                 </Form.Item>
                 <Form.Item label='会议周期' name='cycle'>
                     <Select>
@@ -82,7 +96,7 @@ const NewReservation = () => {
                         <Option value='不重复'>不重复</Option>
                     </Select>
                 </Form.Item>
-                <Form.Item label='会议室状态' name='status'>
+                <Form.Item label='会议室状态'>
                     <StatusTable columns={generateTime()} dataSource={{}} />
                 </Form.Item>
                 <Form.Item label='召集人' name='user'>
@@ -97,8 +111,8 @@ const NewReservation = () => {
                 <Form.Item label='邮箱' name='email'>
                     <Input />
                 </Form.Item>
-                <Form.Item style={{margin: '30px 0px 20px'}}>
-                    <Button type='primary' style={{marginRight: 10}} onClick={handleBook}>预定</Button>
+                <Form.Item style={{ margin: '30px 0px 20px' }}>
+                    <Button type='primary' style={{ marginRight: 10 }} onClick={handleBook}>预定</Button>
                     <Button>取消</Button>
                 </Form.Item>
             </Form>
