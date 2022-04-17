@@ -1,7 +1,6 @@
 import { useState, useContext } from 'react'
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Breadcrumb, Input, DatePicker, Button, Select, Form } from 'antd'
-import { ArrowRightOutlined } from '@ant-design/icons';
 import CustomDivider from '../../components/customDivider'
 import StatusTable from '../../components/statusTable'
 import { generateTime } from '../../mock'
@@ -25,35 +24,45 @@ const initialFormValue = {
 
 const NewReservation = () => {
     const history = useHistory()
+    const location = useLocation()
     const { bookings, setBookings } = useContext(BookingsContext)
-    const [formValue, setFormValue] = useState(initialFormValue)
+    const [formValue, setFormValue] = useState(location.state ? location.state.booking : initialFormValue)
+    const [time, setTime] = useState(location.state ? location.state.booking.time : {})
 
     const handleChange = (changedFields) => {
-        if (changedFields.room) {
+        if (changedFields.time) {
+            const { time } = changedFields
+            const beginTime = `${time[0].hour()}:${time[0].minute() === 0 ? '00' : time[0].minute()}`
+            const endTime = `${time[1].hour()}:${time[1].minute() === 0 ? '00' : time[1].minute()}`
+            const res = {
+                [`${time[0].hour()}:00`]: { position: 'begin', value: beginTime, endValue: endTime },
+                [`${time[1].hour()}:00`]: { position: 'end', value: endTime, beginValue: beginTime }
+            }
+            setFormValue({
+                ...formValue,
+                time: res
+            })
+        } else if (changedFields.room) {
             const { room } = changedFields
             setFormValue({ ...formValue, key: room, name: room, room, status: '未开始' })
+            const newTime = bookings.find((i) => i.room === room)
+            setTime(newTime === undefined ? {} : { ...newTime.time })
         } else {
             setFormValue({ ...formValue, ...changedFields })
         }
     }
 
     const handleBook = () => {
-        const { time } = formValue
-        const beginTime = `${time[0].hour()}:${time[0].minute() === 0 ? '00' : time[0].minute()}`
-        const endTime = `${time[1].hour()}:${time[1].minute()=== 0 ? '00' : time[1].minute()}`
-        setBookings([
-            ...bookings,
-            {
-                ...formValue,
-                time: {
-                    [`${time[0].hour()}:00`]: { position: 'begin', value: beginTime, endValue: endTime },
-                    [`${time[1].hour()}:00`]: { position: 'end', value: endTime, beginValue: beginTime }
-                }
-            }
-        ])
+        if(location.state) {
+            const newBookings = bookings.filter((i) => i.room !== formValue.room)
+            setBookings([...newBookings, formValue])
+        } else {
+            setBookings([...bookings, formValue])
+        }
         history.push('/')
         setFormValue(initialFormValue)
     }
+
     return (
         <div>
             <div>
@@ -82,7 +91,7 @@ const NewReservation = () => {
                     <Input showCount maxLength={50} />
                 </Form.Item>
                 <Form.Item label='预订会议室' name='room'>
-                    <Select>
+                    <Select disabled={!!location.state}>
                         <Option value='田子坊'>田子坊</Option>
                         <Option value='新天地'>新天地</Option>
                     </Select>
@@ -97,7 +106,7 @@ const NewReservation = () => {
                     </Select>
                 </Form.Item>
                 <Form.Item label='会议室状态'>
-                    <StatusTable columns={generateTime()} dataSource={{}} />
+                    <StatusTable columns={generateTime()} dataSource={time} />
                 </Form.Item>
                 <Form.Item label='召集人' name='user'>
                     <Input />

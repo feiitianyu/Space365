@@ -12,7 +12,7 @@ const initialBookings = [
     key: '田子坊',
     name: '田子坊',
     time: {
-      '10:00': { position: 'begin', value: '10:25', endValue: '11:25' },
+      '10:00': { position: 'begin', value: '10:25', endValue: '11:45' },
       '11:00': { position: 'end', value: '11:25', beginValue: '10:25' },
     },
     status: '已结束',

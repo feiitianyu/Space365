@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react'
+import { useHistory, Link } from 'react-router-dom'
 import { Breadcrumb, Input, DatePicker, Button, Table, Tooltip } from 'antd'
 import { SearchOutlined } from '@ant-design/icons';
 import CustomDivider from '../../components/customDivider';
@@ -7,6 +8,7 @@ import { BookingsContext } from '../../App';
 const { Column } = Table
 
 const MyReservation = () => {
+    const history = useHistory()
     const { bookings } = useContext(BookingsContext)
     const [tableData, setTableData] = useState(bookings)
     const filterTableData = (e) => {
@@ -97,7 +99,7 @@ const MyReservation = () => {
                     />
                     <Column
                         title='操作'
-                        render={() => <Button type='link'>编辑</Button>}
+                        render={(text) => <Link to={{ pathname: '/newReservation', state: { booking: { ...text } } }}>编辑</Link>}
                     />
                 </Table>
             </div>
