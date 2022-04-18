@@ -36,7 +36,6 @@ const CreateReservation = () => {
             setTableData(newTableData)
         }
     }
-
     return (
         <div>
             <div>

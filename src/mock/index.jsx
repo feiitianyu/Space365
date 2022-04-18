@@ -12,7 +12,7 @@ export const bookItems = [park, skyscraper, floor, person, device]
 
 export const generateTime = () => {
     let res = []
-    for(let i=8; i<18; i++) {
+    for(let i=0; i<13; i++) {
         const str = `${i}:00`
         res = [...res, { title: str, dataIndex: str, key: str }]
     }

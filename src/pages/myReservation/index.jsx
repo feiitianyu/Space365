@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
-import { useHistory, Link } from 'react-router-dom'
-import { Breadcrumb, Input, DatePicker, Button, Table, Tooltip } from 'antd'
+import { Link } from 'react-router-dom'
+import { Breadcrumb, Input, Button, Table, Tooltip } from 'antd'
 import { SearchOutlined } from '@ant-design/icons';
 import CustomDivider from '../../components/customDivider';
 import { BookingsContext } from '../../App';
@@ -8,8 +8,7 @@ import { BookingsContext } from '../../App';
 const { Column } = Table
 
 const MyReservation = () => {
-    const history = useHistory()
-    const { bookings } = useContext(BookingsContext)
+    const { bookings, setBookings } = useContext(BookingsContext)
     const [tableData, setTableData] = useState(bookings)
     const filterTableData = (e) => {
         if(e.target.value === '') {
@@ -23,6 +22,12 @@ const MyReservation = () => {
             }
             setTableData(newTableData)
         }
+    }
+
+    const handleDelete = (key) => {
+        const newBookings = bookings.filter((i) => i.key !== key)
+        setTableData(newBookings)
+        setBookings(newBookings)
     }
 
     return (
@@ -99,7 +104,12 @@ const MyReservation = () => {
                     />
                     <Column
                         title='操作'
-                        render={(text) => <Link to={{ pathname: '/newReservation', state: { booking: { ...text } } }}>编辑</Link>}
+                        render={(text) => (
+                            <>
+                                <Link to={{ pathname: '/newReservation', state: { booking: { ...text } } }}>编辑</Link>
+                                <Button type='link' onClick={() => handleDelete(text.key)}>删除</Button>
+                            </>
+                        )}
                     />
                 </Table>
             </div>

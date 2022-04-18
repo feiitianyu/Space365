@@ -8,7 +8,7 @@ export const calcLeftAndWidth = (beginTime, endTime) => {
     const beginMinute = Number(beginTime.slice(beginSliceIndex+1))
     const endHour = Number(endTime.slice(0, endSliceIndex))
     const endMinute = Number(endTime.slice(endSliceIndex+1))
-    const left = `${beginHour/60*100}%`
+    const left = `${beginMinute/60*100}%`
     let width
     if(endHour - beginHour === 0) {
         width = `${(endMinute-beginMinute)/60*100}%`

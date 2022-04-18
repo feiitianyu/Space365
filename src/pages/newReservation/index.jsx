@@ -53,7 +53,7 @@ const NewReservation = () => {
     }
 
     const handleBook = () => {
-        if(location.state) {
+        if (location.state) {
             const newBookings = bookings.filter((i) => i.room !== formValue.room)
             setBookings([...newBookings, formValue])
         } else {
@@ -62,7 +62,6 @@ const NewReservation = () => {
         history.push('/')
         setFormValue(initialFormValue)
     }
-
     return (
         <div>
             <div>
@@ -71,7 +70,7 @@ const NewReservation = () => {
                     <Breadcrumb.Item>空间预订</Breadcrumb.Item>
                     <Breadcrumb.Item>新建预订</Breadcrumb.Item>
                 </Breadcrumb>
-                <div style={{ fontSize: 18, fontWeight: 'bold', margin: '10px 0 13px' }}>新建预订</div>
+                <div style={{ fontSize: 18, fontWeight: 'bold', margin: '2px 0' }}>新建预订</div>
                 <div className='bookUserInfo'>
                     <span>预订人: 张磊</span>
                     <span>部门: 应用软件部</span>
@@ -120,7 +119,7 @@ const NewReservation = () => {
                 <Form.Item label='邮箱' name='email'>
                     <Input />
                 </Form.Item>
-                <Form.Item style={{ margin: '30px 0px 20px' }}>
+                <Form.Item style={{ margin: '10px 0px' }}>
                     <Button type='primary' style={{ marginRight: 10 }} onClick={handleBook}>预定</Button>
                     <Button>取消</Button>
                 </Form.Item>

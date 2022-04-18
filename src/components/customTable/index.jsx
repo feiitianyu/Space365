@@ -1,10 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import moment from 'moment'
 import { calcLeftAndWidth } from '../statusTable'
+import { BookingsContext } from '../../App'
 import './index.css'
 
 const CustomTable = ({ columns, dataSource }) => {
+    const { bookings } = useContext(BookingsContext)
     const [left, setLeft] = useState(`${moment().minute() / 60 * 100}%`)
+
+    // const handleClickCell = (time) => {
+    //     const sliceIndex = time.indexOf(':')
+    // }
 
     useEffect(() => {
         const t = setInterval(() => {
