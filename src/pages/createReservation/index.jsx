@@ -49,7 +49,7 @@ const CreateReservation = () => {
                         type='primary'
                         size='small'
                         icon={<PlusOutlined />}
-                        onClick={() => history.push('/newReservation')}
+                        onClick={() => history.push('/newReservation', { isNew: true })}
                     >
                         新建预订
                     </Button>

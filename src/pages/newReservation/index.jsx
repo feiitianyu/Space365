@@ -25,9 +25,10 @@ const initialFormValue = {
 const NewReservation = () => {
     const history = useHistory()
     const location = useLocation()
+    const isNew = location.state.isNew
     const { bookings, setBookings } = useContext(BookingsContext)
-    const [formValue, setFormValue] = useState(location.state ? location.state.booking : initialFormValue)
-    const [time, setTime] = useState(location.state ? location.state.booking.time : {})
+    const [formValue, setFormValue] = useState(isNew ? location.state.booking ? { ...initialFormValue, ...location.state.booking } :initialFormValue : location.state.booking)
+    const [time, setTime] = useState(isNew ? location.state.booking ? bookings.find((i) => i.room === location.state.booking.room).time : {} : location.state.booking.time)
 
     const handleChange = (changedFields) => {
         if (changedFields.time) {
@@ -53,15 +54,18 @@ const NewReservation = () => {
     }
 
     const handleBook = () => {
-        if (location.state) {
+        if (isNew) {
+            setBookings([...bookings, formValue])
+        } else {
             const newBookings = bookings.filter((i) => i.room !== formValue.room)
             setBookings([...newBookings, formValue])
-        } else {
-            setBookings([...bookings, formValue])
         }
         history.push('/')
         setFormValue(initialFormValue)
     }
+    // console.log(location.state)
+    console.log(formValue)
+    console.log(isNew)
     return (
         <div>
             <div>
@@ -90,7 +94,7 @@ const NewReservation = () => {
                     <Input showCount maxLength={50} />
                 </Form.Item>
                 <Form.Item label='预订会议室' name='room'>
-                    <Select disabled={!!location.state}>
+                    <Select disabled={!isNew}>
                         <Option value='田子坊'>田子坊</Option>
                         <Option value='新天地'>新天地</Option>
                     </Select>

@@ -106,7 +106,7 @@ const MyReservation = () => {
                         title='操作'
                         render={(text) => (
                             <>
-                                <Link to={{ pathname: '/newReservation', state: { booking: { ...text } } }}>编辑</Link>
+                                <Link to={{ pathname: '/newReservation', state: { booking: { ...text }, isNew: false } }}>编辑</Link>
                                 <Button type='link' onClick={() => handleDelete(text.key)}>删除</Button>
                             </>
                         )}
